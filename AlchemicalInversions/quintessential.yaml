@@ -1,0 +1,10 @@
+Name: Alchemical Inversions
+Version: 0.0.1
+Icon: AIIcon
+Desc: This mod enables all of Trixie's cool glyphs and atoms!!!
+DLL: "AlchemicalInversions.dll"
+Dependencies: 
+- Name: Quintessential
+  Version: 0.5.1
+- Name: Brimstone
+  Version: 2.0.2

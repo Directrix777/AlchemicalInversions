@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Brimstone;
 using Quintessential;
 using PartType = class_139;
 using Texture = class_256;
@@ -22,22 +21,24 @@ namespace AlchemicalInversions
         public static HexIndex RecessionInput1 = new HexIndex(1, 0);
         public static HexIndex RecessionInput2 = new HexIndex(2, 0);
         public static HexIndex RecessionOutput2 = new HexIndex(3, 0);
-        private static AtomType[] metals = { API.VanillaAtoms.lead, API.VanillaAtoms.tin, API.VanillaAtoms.iron, API.VanillaAtoms.copper, API.VanillaAtoms.silver, API.VanillaAtoms.gold };//add antimetals once implemented
 
-        private static int GetMetalicity(AtomType atomtype)
+        public static PartType Transposal;
+        public static HexIndex TransposalInput = new HexIndex(0, 0);
+        public static HexIndex TransposalBowl = new HexIndex(1, 0);
+        private static int GetMetallicity(AtomType atomtype)
         {
-            if(!metals.Contains(atomtype))
+            if(!API.metals.Contains(atomtype))
             {
                 Logger.Log("You tried to get the metallicity of a non-metal, wtf???");
                 return -777;
             }
             else
             {
-                for (int i = 0; i < metals.Length; i++)
+                for (int i = 0; i < API.metals.Length; i++)
                 {
-                    if (metals[i] == atomtype) 
-                    { 
-                        return i + 1; 
+                    if (API.metals[i] == atomtype) 
+                    {
+                        return i - 6;
                     }
                 }
                 Logger.Log("Somehow the metal isn't a metal anymore, dog, idk what to tell you.");
@@ -46,7 +47,8 @@ namespace AlchemicalInversions
         }
         public static void Initialize()
         {
-            Conglomeration = API.CreateSimpleGlyph(
+            API.Initialize();
+            Conglomeration = Brimstone.API.CreateSimpleGlyph(
                 ID: "alchemical-inversions-conglomeration",
                 name: "Glyph of Conglomeration",
                 description: "The glyph of Conglomeration consumes one Vitae and one Mors atom to create an atom of Tenebrivex.",
@@ -54,8 +56,8 @@ namespace AlchemicalInversions
                 glow: class_238.field_1989.field_97.field_386,
                 stroke: class_238.field_1989.field_97.field_387,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
-                //icon: API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration"),
-                hoveredIcon: API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration"),
+                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
                 usedHexes: new HexIndex[]
                 {
                     ConglomerationInput1,
@@ -99,55 +101,8 @@ namespace AlchemicalInversions
                 }
             }
             );
-            QApi.RunAfterCycle(static (sim, first) =>
-            {
-                SolutionEditorBase seb = sim.field_3818; //Sim is what controls atoms, runs game. SEB keeps track of editor
-                Dictionary<Part, PartSimState> pss = sim.field_3821; //pss is what the glyphs are doing
-                List<Part> parts = seb.method_502().field_3919; //list of placed parts
-                foreach (var part in parts)
-                {
-                    PartType type = part.method_1159();
-                    if (type == Conglomeration)
-                    {
-                        if (first)
-                        {
-                            if (sim.FindAtomRelative(part, ConglomerationOutput).method_1085()) //FindAtomRelative returns an atom, if it finds one at the index. 1085 returns whether the atom has an element as bool.
-                            {
-                                //output blocked
-                                continue;
-                            }
-                            if (!sim.FindAtomRelative(part, ConglomerationInput1).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, ConglomerationInput2).method_99(out AtomReference i2))
-                            {
-                                //not enough atoms on inputs
-                                continue;
-                            }
-                            if(i1.field_2281 || i1.field_2282 || i2.field_2281 || i2.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
-                            {
-                                //atom is being grabbed, or has bonds.
-                                continue;
-                            }
-                            if((i1.field_2280 == API.VanillaAtoms.vitae && i2.field_2280 == API.VanillaAtoms.mors) || (i2.field_2280 == API.VanillaAtoms.vitae && i1.field_2280 == API.VanillaAtoms.mors))
-                            {
-                                //atoms are correct! yay!
-                                API.RemoveAtom(i1);
-                                API.RemoveAtom(i2);//deletes atoms
-                                API.DrawFallingAtom(seb, i1);
-                                API.DrawFallingAtom(seb, i2);//make atoms fall into respective holes
-                                API.AddSmallCollider(sim, part, ConglomerationOutput);//collision of atom entering
-                                pss[part].field_2743 = true; //sets it to active
-                                pss[part].field_2744 = new AtomType[1] { Atoms.Tenebrivex }; //set atom(s) that will be made, array size is set, each index can be pulled from separately
-                            }
-                        }
-                        else if (pss[part].field_2743)//if going to fire
-                        {
-                            API.AddAtom(sim, part, ConglomerationOutput, pss[part].field_2744[0]);//make atom!
-                        }
-                    }
-                }
-            }
-            );
 
-            Recession = API.CreateSimpleGlyph(
+            Recession = Brimstone.API.CreateSimpleGlyph(
                 ID: "alchemical-inversions-recession",
                 name: "Glyph of Recession",
                 description: "The glyph of Recession takes in two metals and redistributes their metalicity, rendering them as close to equivalent as possible.",
@@ -155,8 +110,8 @@ namespace AlchemicalInversions
                 glow: class_238.field_1989.field_97.field_386,
                 stroke: class_238.field_1989.field_97.field_387,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
-                                                                         //icon: API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration"),
-                hoveredIcon: API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                                                                         //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
+                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
                 usedHexes: new HexIndex[]
                 {
                     RecessionOutput1,
@@ -167,7 +122,7 @@ namespace AlchemicalInversions
                 customPermission: MainClass.RecessionPermission
                 );
             QApi.AddPartTypeToPanel(Recession, false);
-            QApi.AddPartType(Recession, static (part, pos, editor, renderer) =>
+            QApi.AddPartType(Recession, static (part, pos, editor, renderer) =>//how the glyphs look
             {
                 PartSimState pss = editor.method_507().method_481(part);
                 float time = editor.method_504();
@@ -211,16 +166,81 @@ namespace AlchemicalInversions
                 }
             }
             );
-            QApi.RunAfterCycle(static (sim, first) =>
+
+            Transposal = Brimstone.API.CreateSimpleGlyph(
+                ID: "alchemical-inversions-transposal",
+                name: "Glyph of Transposal",
+                description: "The glyph of Transposal consumes an atom of Tenebrivex to invert a compatible atom on its other end.",
+                cost: 20,
+                glow: class_238.field_1989.field_97.field_386,
+                stroke: class_238.field_1989.field_97.field_387,
+                icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
+                                                                         //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
+                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                usedHexes: new HexIndex[]
+                {
+                    TransposalInput,
+                    TransposalBowl
+                },
+                customPermission: MainClass.TransposalPermission
+                );
+            QApi.AddPartTypeToPanel(Transposal, false);
+            QApi.AddPartType(Transposal, static (part, pos, editor, renderer) =>//how the glyphs look
+            {
+                PartSimState pss = editor.method_507().method_481(part);
+                class_236 uco = editor.method_1989(part, pos);
+                Vector2 offset = new Vector2(41, 48);
+                renderer.method_523(class_238.field_1989.field_90.field_257.field_359, new Vector2(-1, -1), offset, 0);//renders base of purification glyph, need to switch
+                renderer.method_528(class_238.field_1989.field_90.field_255.field_293, TransposalInput, Vector2.Zero);//renders hole
+                renderer.method_528(class_238.field_1989.field_90.field_170, TransposalBowl, Vector2.Zero); //renders bowl?
+            }
+            );
+
+            QApi.RunAfterCycle(static (sim, first) =>//What the glyphs do
             {
                 SolutionEditorBase seb = sim.field_3818; //Sim is what controls atoms, runs game. SEB keeps track of editor
-                Logger.Log("SEB is " + seb);
                 Dictionary<Part, PartSimState> pss = sim.field_3821; //pss is what the glyphs are doing
                 List<Part> parts = seb.method_502().field_3919; //list of placed parts
                 foreach (var part in parts)
                 {
                     PartType type = part.method_1159();
-                    if (type == Recession)
+                    if (type == Conglomeration)
+                    {
+                        if (first)
+                        {
+                            if (sim.FindAtomRelative(part, ConglomerationOutput).method_1085()) //FindAtomRelative returns an atom, if it finds one at the index. 1085 returns whether the atom has an element as bool.
+                            {
+                                //output blocked
+                                continue;
+                            }
+                            if (!sim.FindAtomRelative(part, ConglomerationInput1).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, ConglomerationInput2).method_99(out AtomReference i2))
+                            {
+                                //not enough atoms on inputs
+                                continue;
+                            }
+                            if (i1.field_2281 || i1.field_2282 || i2.field_2281 || i2.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
+                            {
+                                //atom is being grabbed, or has bonds.
+                                continue;
+                            }
+                            if ((i1.field_2280 == Brimstone.API.VanillaAtoms.vitae && i2.field_2280 == Brimstone.API.VanillaAtoms.mors) || (i2.field_2280 == Brimstone.API.VanillaAtoms.vitae && i1.field_2280 == Brimstone.API.VanillaAtoms.mors))
+                            {
+                                //atoms are correct! yay!
+                                Brimstone.API.RemoveAtom(i1);
+                                Brimstone.API.RemoveAtom(i2);//deletes atoms
+                                Brimstone.API.DrawFallingAtom(seb, i1);
+                                Brimstone.API.DrawFallingAtom(seb, i2);//make atoms fall into respective holes
+                                Brimstone.API.AddSmallCollider(sim, part, ConglomerationOutput);//collision of atom entering
+                                pss[part].field_2743 = true; //sets it to active
+                                pss[part].field_2744 = new AtomType[1] { Atoms.Tenebrivex }; //set atom(s) that will be made, array size is set, each index can be pulled from separately
+                            }
+                        }
+                        else if (pss[part].field_2743)//if going to fire
+                        {
+                            Brimstone.API.AddAtom(sim, part, ConglomerationOutput, pss[part].field_2744[0]);//make atom!
+                        }
+                    }
+                    else if (type == Recession)
                     {
                         if (first)
                         {
@@ -239,41 +259,80 @@ namespace AlchemicalInversions
                                 //atom is being grabbed, or has bonds.
                                 continue;
                             }
-                            if (metals.Contains(i1.field_2280) && metals.Contains(i2.field_2280))
+                            if (API.metals.Contains(i1.field_2280) && API.metals.Contains(i2.field_2280))
                             {
                                 //atoms are correct! yay!
-                                AtomType[] outputAtoms = {null, null};
-                                int totalmetalicity = GetMetalicity(i1.field_2280) + GetMetalicity(i2.field_2280);
-                                if (totalmetalicity % 2 == 1)
+                                int totalmetallicity = GetMetallicity(i1.field_2280) + GetMetallicity(i2.field_2280);
+                                AtomType[] outputAtoms = { null, API.metals[(int)totalmetallicity / 2 + 6] }; //Atom on the right will have same metallicity whether even or odd total
+                                if (totalmetallicity / 2 == 0)
                                 {
-                                    outputAtoms[0] = metals[(int)totalmetalicity / 2];
-                                    outputAtoms[1] = metals[(int)totalmetalicity / 2 - 1];
+                                    outputAtoms = new AtomType[] { Brimstone.API.VanillaAtoms.lead, Atoms.AntiLead };
+                                }
+                                else if ((int)totalmetallicity / 2 == 1)
+                                {
+                                    outputAtoms = new AtomType[] { Brimstone.API.VanillaAtoms.tin, Atoms.AntiLead };
+                                }
+                                else if ((int)totalmetallicity / 2 == -1)
+                                {
+                                    outputAtoms = new AtomType[] { Brimstone.API.VanillaAtoms.lead, Atoms.AntiTin };
+                                }
+                                else if (totalmetallicity % 2 == 1)
+                                {
+                                    outputAtoms[0] = API.metals[(int)totalmetallicity / 2 + 7];
                                 }
                                 else
                                 {
-                                    outputAtoms[0] = metals[(int)totalmetalicity / 2 - 1];
-                                    outputAtoms[1] = metals[(int)totalmetalicity / 2 - 1];
+                                    outputAtoms[0] = API.metals[(int)totalmetallicity / 2 + 6];
                                 }
-                                API.RemoveAtom(i1);
-                                API.RemoveAtom(i2);//deletes atoms
-                                API.DrawFallingAtom(seb, i1);
-                                API.DrawFallingAtom(seb, i2);//make atoms fall into respective holes
-                                API.AddSmallCollider(sim, part, RecessionOutput1);//collision of atom entering
-                                API.AddSmallCollider(sim, part, RecessionOutput2);
+                                Brimstone.API.RemoveAtom(i1);
+                                Brimstone.API.RemoveAtom(i2);//deletes atoms
+                                Brimstone.API.DrawFallingAtom(seb, i1);
+                                Brimstone.API.DrawFallingAtom(seb, i2);//make atoms fall into respective holes
+                                Brimstone.API.AddSmallCollider(sim, part, RecessionOutput1);//collision of atom entering
+                                Brimstone.API.AddSmallCollider(sim, part, RecessionOutput2);
                                 pss[part].field_2743 = true; //sets it to active
                                 pss[part].field_2744 = outputAtoms; //set atom(s) that will be made, array size is set, each index can be pulled from separately
                             }
                         }
                         else if (pss[part].field_2743)//if going to fire
                         {
-                            API.AddAtom(sim, part, RecessionOutput1, pss[part].field_2744[0]);//make atom!
-                            API.AddAtom(sim, part, RecessionOutput2, pss[part].field_2744[1]);//make atom!
+                            Brimstone.API.AddAtom(sim, part, RecessionOutput1, pss[part].field_2744[0]);//make atom!
+                            Brimstone.API.AddAtom(sim, part, RecessionOutput2, pss[part].field_2744[1]);//make atom!
 
+                        }
+                    }
+                    else if(type == Transposal)
+                    {
+                        if(first)
+                        {
+                            if (!sim.FindAtomRelative(part, TransposalInput).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, TransposalBowl).method_99(out AtomReference i2))
+                            {
+                                //not enough atoms on inputs
+                                continue;
+                            }
+                            if (i1.field_2281 || i1.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
+                            {
+                                //input atom is being grabbed, or has bonds.
+                                continue;
+                            }
+                            if (!API.transpositionTable.TryGetValue(i2.field_2280, out AtomType inversion))
+                            {
+                                //atom in bowl is not transposable.
+                                continue;
+                            }
+                            if (i1.field_2280 == Atoms.Tenebrivex)
+                            {
+                                //input atom is Tenebrivex! Yay!
+                                Brimstone.API.RemoveAtom(i1);//remove Tenebrivex
+                                Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
+                                Brimstone.API.ChangeAtom(i2, inversion);
+                            }
                         }
                     }
                 }
             }
             );
+
         }
     }
 }

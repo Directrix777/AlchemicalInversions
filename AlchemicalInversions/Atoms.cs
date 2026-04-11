@@ -87,8 +87,8 @@ namespace AlchemicalInversions
                 ID: 77,
                 modName: "AlchemicalInversions",
                 name: "Yttrium",
-                pathToSymbol: "textures/atoms/Directrix777/AlchemicalInversions/Anti-Tin_Symbol",
-                pathToLightramp: "textures/atoms/Directrix777/AlchemicalInversions/Anti-Tin_Lightramp"
+                pathToSymbol: "textures/atoms/Directrix777/AlchemicalInversions/Yttrium_Symbol",
+                pathToLightramp: "textures/atoms/Directrix777/AlchemicalInversions/Yttrium_Lightramp"
                 );
 
             QApi.AddAtomType(Tenebrivex);

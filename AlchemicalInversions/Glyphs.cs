@@ -264,21 +264,25 @@ namespace AlchemicalInversions
                                 //atoms are correct! yay!
                                 int totalmetallicity = GetMetallicity(i1.field_2280) + GetMetallicity(i2.field_2280);
                                 AtomType[] outputAtoms = { null, API.metals[(int)totalmetallicity / 2 + 6] }; //Atom on the right will have same metallicity whether even or odd total
-                                if (totalmetallicity / 2 == 0)
+                                if (totalmetallicity == 0)
                                 {
                                     outputAtoms = new AtomType[] { Brimstone.API.VanillaAtoms.lead, Atoms.AntiLead };
                                 }
-                                else if ((int)totalmetallicity / 2 == 1)
+                                else if ((int)totalmetallicity == 1)
                                 {
                                     outputAtoms = new AtomType[] { Brimstone.API.VanillaAtoms.tin, Atoms.AntiLead };
                                 }
-                                else if ((int)totalmetallicity / 2 == -1)
+                                else if ((int)totalmetallicity == -1)
                                 {
                                     outputAtoms = new AtomType[] { Brimstone.API.VanillaAtoms.lead, Atoms.AntiTin };
                                 }
                                 else if (totalmetallicity % 2 == 1)
                                 {
                                     outputAtoms[0] = API.metals[(int)totalmetallicity / 2 + 7];
+                                }
+                                else if (totalmetallicity % 2 == -1)//Atom on right changes cuz negative rounding.
+                                {
+                                    outputAtoms = new AtomType[] { API.metals[(int)totalmetallicity / 2 + 6], API.metals[(int)totalmetallicity / 2 + 5] };
                                 }
                                 else
                                 {
@@ -303,30 +307,28 @@ namespace AlchemicalInversions
                     }
                     else if(type == Transposal)
                     {
-                        if(first)
+                        
+                        if (!sim.FindAtomRelative(part, TransposalInput).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, TransposalBowl).method_99(out AtomReference i2))
                         {
-                            if (!sim.FindAtomRelative(part, TransposalInput).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, TransposalBowl).method_99(out AtomReference i2))
-                            {
-                                //not enough atoms on inputs
-                                continue;
-                            }
-                            if (i1.field_2281 || i1.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
-                            {
-                                //input atom is being grabbed, or has bonds.
-                                continue;
-                            }
-                            if (!API.transpositionTable.TryGetValue(i2.field_2280, out AtomType inversion))
-                            {
-                                //atom in bowl is not transposable.
-                                continue;
-                            }
-                            if (i1.field_2280 == Atoms.Tenebrivex)
-                            {
-                                //input atom is Tenebrivex! Yay!
-                                Brimstone.API.RemoveAtom(i1);//remove Tenebrivex
-                                Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
-                                Brimstone.API.ChangeAtom(i2, inversion);
-                            }
+                            //not enough atoms on inputs
+                            continue;
+                        }
+                        if (i1.field_2281 || i1.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
+                        {
+                            //input atom is being grabbed, or has bonds.
+                            continue;
+                        }
+                        if (!API.transpositionTable.TryGetValue(i2.field_2280, out AtomType inversion))
+                        {
+                            //atom in bowl is not transposable.
+                            continue;
+                        }
+                        if (i1.field_2280 == Atoms.Tenebrivex)
+                        {
+                            //input atom is Tenebrivex! Yay!
+                            Brimstone.API.RemoveAtom(i1);//remove Tenebrivex
+                            Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
+                            Brimstone.API.ChangeAtom(i2, inversion);
                         }
                     }
                 }

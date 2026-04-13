@@ -25,6 +25,10 @@ namespace AlchemicalInversions
         public static PartType Transposal;
         public static HexIndex TransposalInput = new HexIndex(0, 0);
         public static HexIndex TransposalBowl = new HexIndex(1, 0);
+
+        public static Texture ConglomerationAnimismusSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_animismus_symbol");
+        public static Texture MetalSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_metal_symbol");
+        public static Texture TransposalTenebrivexSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Transposal/transposal_tenebrivex_symbol");
         private static int GetMetallicity(AtomType atomtype)
         {
             if(!API.metals.Contains(atomtype))
@@ -77,7 +81,7 @@ namespace AlchemicalInversions
                 foreach(var h in new HexIndex[] {ConglomerationInput1, ConglomerationInput2})
                 {
                     renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
-                    renderer.method_528(Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_animismus_symbol"), h, Vector2.Zero);//renders holes
+                    renderer.method_529(ConglomerationAnimismusSymbol, h, Vector2.Zero);//renders holes
                 }
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, ConglomerationOutput, Vector2.Zero);//renders void under iris
                 int irisFrame = 15;
@@ -134,7 +138,7 @@ namespace AlchemicalInversions
                 foreach (var h in new HexIndex[] { RecessionInput1, RecessionInput2 })
                 {
                     renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
-                    renderer.method_528(Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_metal_symbol"), h, Vector2.Zero);
+                    renderer.method_529(MetalSymbol, h, Vector2.Zero);
                 }
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, RecessionOutput1, Vector2.Zero);//renders void under iris
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, RecessionOutput2, Vector2.Zero);//renders void under iris
@@ -194,7 +198,7 @@ namespace AlchemicalInversions
                 Vector2 offset = new Vector2(41, 48);
                 renderer.method_523(class_238.field_1989.field_90.field_255.field_288, new Vector2(-1, -1), offset, 0);//renders base of projection glyph
                 renderer.method_528(class_238.field_1989.field_90.field_255.field_293, TransposalInput, Vector2.Zero);//renders hole
-                renderer.method_528(Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Transposal/transposal_tenebrivex_symbol"), TransposalInput, Vector2.Zero);//renders crooked??? Why?
+                renderer.method_529(TransposalTenebrivexSymbol, TransposalInput, Vector2.Zero);//renders crooked??? Why?
                 renderer.method_528(class_238.field_1989.field_90.field_170, TransposalBowl, Vector2.Zero); //renders bowl
             }
             );

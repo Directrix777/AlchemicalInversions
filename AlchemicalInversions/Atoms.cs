@@ -18,6 +18,7 @@ namespace AlchemicalInversions
         public static AtomType AntiSilver;
         public static AtomType AntiGold;
         public static AtomType Yttrium;
+        public static AtomType SusYttrium;
 
         public static void Initialize()
         {
@@ -90,6 +91,19 @@ namespace AlchemicalInversions
                 pathToSymbol: "textures/atoms/Directrix777/AlchemicalInversions/Yttrium_Symbol",
                 pathToLightramp: "textures/atoms/Directrix777/AlchemicalInversions/Yttrium_Lightramp"
                 );
+
+            SusYttrium = Brimstone.API.CreateMetalAtom(
+                ID: 77,
+                modName: "AlchemicalInversions",
+                name: "SusYttrium", 
+                symbol: Yttrium.field_2287,
+                lightramp: Yttrium.field_2291.field_14,
+                shadow: Yttrium.field_2288,
+                rimlight: Yttrium.field_2291.field_15,
+                promotesTo: Brimstone.API.VanillaAtoms.lead
+                );
+
+
 
             QApi.AddAtomType(Tenebrivex);
             QApi.AddAtomType(AntiLead);

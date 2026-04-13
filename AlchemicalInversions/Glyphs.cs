@@ -56,8 +56,8 @@ namespace AlchemicalInversions
                 glow: class_238.field_1989.field_97.field_386,
                 stroke: class_238.field_1989.field_97.field_387,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
-                //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_icon"),
+                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_hover"),
                 usedHexes: new HexIndex[]
                 {
                     ConglomerationInput1,
@@ -77,6 +77,7 @@ namespace AlchemicalInversions
                 foreach(var h in new HexIndex[] {ConglomerationInput1, ConglomerationInput2})
                 {
                     renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
+                    renderer.method_528(Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_animismus_symbol"), h, Vector2.Zero);//renders holes
                 }
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, ConglomerationOutput, Vector2.Zero);//renders void under iris
                 int irisFrame = 15;
@@ -107,8 +108,8 @@ namespace AlchemicalInversions
                 name: "Glyph of Recession",
                 description: "The glyph of Recession takes in two metals and redistributes their metalicity, rendering them as close to equivalent as possible.",
                 cost: 20,
-                glow: class_238.field_1989.field_97.field_386,
-                stroke: class_238.field_1989.field_97.field_387,
+                glow: class_238.field_1989.field_97.field_374,
+                stroke: class_238.field_1989.field_97.field_375,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
                 hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
@@ -128,10 +129,12 @@ namespace AlchemicalInversions
                 float time = editor.method_504();
                 class_236 uco = editor.method_1989(part, pos);
                 Vector2 offset = new Vector2(41, 48);
-                renderer.method_523(class_238.field_1989.field_90.field_257.field_359, new Vector2(-1, -1), offset, 0);//renders base of purification glyph, need to switch
+                renderer.method_523(class_238.field_1989.field_90.field_255.field_288, new Vector2(-1, -1), offset, 0);//renders base of projection glyph
+                renderer.method_523(class_238.field_1989.field_90.field_255.field_288, new Vector2(-1, -1), offset + new Vector2(246, 0), (float)Math.PI);//renders base of projection glyph
                 foreach (var h in new HexIndex[] { RecessionInput1, RecessionInput2 })
                 {
                     renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
+                    renderer.method_528(Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_metal_symbol"), h, Vector2.Zero);
                 }
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, RecessionOutput1, Vector2.Zero);//renders void under iris
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, RecessionOutput2, Vector2.Zero);//renders void under iris
@@ -150,12 +153,11 @@ namespace AlchemicalInversions
                     risingAtom2 = Molecule.method_1121(pss.field_2744[1]);
                     if (!afterIrisOpens)
                     {
-
                         Editor.method_925(risingAtom1, risingOffset1, new HexIndex(0, 0), 0, 1, time, 1, false, null);
                         Editor.method_925(risingAtom2, risingOffset2, new HexIndex(0, 0), 0, 1, time, 1, false, null);
                     }
                 }
-                renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], RecessionOutput1, Vector2.Zero);//renders current iris frame
+                renderer.method_529(Brimstone.API.GetAnimation("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_iris.array", "iris_up", 16)[irisFrame], RecessionOutput1, Vector2.Zero);//renders current iris frame
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_271, RecessionOutput1, Vector2.Zero);//renders rim above iris
                 renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], RecessionOutput2, Vector2.Zero);
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_271, RecessionOutput2, Vector2.Zero);
@@ -172,11 +174,11 @@ namespace AlchemicalInversions
                 name: "Glyph of Transposal",
                 description: "The glyph of Transposal consumes an atom of Tenebrivex to invert a compatible atom on its other end.",
                 cost: 20,
-                glow: class_238.field_1989.field_97.field_386,
-                stroke: class_238.field_1989.field_97.field_387,
+                glow: class_238.field_1989.field_97.field_374,
+                stroke: class_238.field_1989.field_97.field_375,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_hover"),
                 usedHexes: new HexIndex[]
                 {
                     TransposalInput,
@@ -190,9 +192,10 @@ namespace AlchemicalInversions
                 PartSimState pss = editor.method_507().method_481(part);
                 class_236 uco = editor.method_1989(part, pos);
                 Vector2 offset = new Vector2(41, 48);
-                renderer.method_523(class_238.field_1989.field_90.field_257.field_359, new Vector2(-1, -1), offset, 0);//renders base of purification glyph, need to switch
+                renderer.method_523(class_238.field_1989.field_90.field_255.field_288, new Vector2(-1, -1), offset, 0);//renders base of projection glyph
                 renderer.method_528(class_238.field_1989.field_90.field_255.field_293, TransposalInput, Vector2.Zero);//renders hole
-                renderer.method_528(class_238.field_1989.field_90.field_170, TransposalBowl, Vector2.Zero); //renders bowl?
+                renderer.method_528(Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Transposal/transposal_tenebrivex_symbol"), TransposalInput, Vector2.Zero);//renders crooked??? Why?
+                renderer.method_528(class_238.field_1989.field_90.field_170, TransposalBowl, Vector2.Zero); //renders bowl
             }
             );
 
@@ -329,6 +332,37 @@ namespace AlchemicalInversions
                             Brimstone.API.RemoveAtom(i1);//remove Tenebrivex
                             Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
                             Brimstone.API.ChangeAtom(i2, inversion);
+                        }
+                    }
+                    else if(type == class_191.field_1779)
+                    {
+                        if(first)
+                        {
+                            if (sim.FindAtomRelative(part, ConglomerationOutput).method_1085()) //FindAtomRelative returns an atom, if it finds one at the index. 1085 returns whether the atom has an element as bool.
+                            {
+                                //output blocked
+                                continue;
+                            }
+                            if (!sim.FindAtomRelative(part, ConglomerationInput1).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, ConglomerationInput2).method_99(out AtomReference i2))
+                            {
+                                //not enough atoms on inputs
+                                continue;
+                            }
+                            if (i1.field_2281 || i1.field_2282 || i2.field_2281 || i2.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
+                            {
+                                //atom is being grabbed, or has bonds.
+                                continue;
+                            }
+                            if (i1.field_2280 == Atoms.Yttrium && i2.field_2280 == Atoms.Yttrium)
+                            {
+                                Brimstone.API.RemoveAtom(i1);
+                                Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
+                                Brimstone.API.RemoveAtom(i2);
+                                Brimstone.API.DrawFallingAtom(seb, i2);//Make it fall
+                                pss[part].field_2743 = true; //sets it to active
+                                pss[part].field_2744 = new AtomType[] { Atoms.SusYttrium };
+                                Brimstone.API.PlaySound(sim, class_238.field_1991.field_1845);
+                            }
                         }
                     }
                 }

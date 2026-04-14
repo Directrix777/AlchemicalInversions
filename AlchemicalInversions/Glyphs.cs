@@ -26,9 +26,17 @@ namespace AlchemicalInversions
         public static HexIndex TransposalInput = new HexIndex(0, 0);
         public static HexIndex TransposalBowl = new HexIndex(1, 0);
 
-        public static Texture ConglomerationAnimismusSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_animismus_symbol");
-        public static Texture MetalSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_metal_symbol");
-        public static Texture TransposalTenebrivexSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Transposal/transposal_tenebrivex_symbol");
+        public static PartType Corrosion;
+        public static HexIndex CorrosionInput1 = new HexIndex(0, 0);
+        public static HexIndex CorrosionOutput = new HexIndex(1, 0);
+        public static HexIndex CorrosionInput2 = new HexIndex(2, 0);
+
+        public static class Textures
+        {
+            public static Texture ConglomerationAnimismusSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_animismus_symbol");
+            public static Texture MetalSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_metal_symbol");
+            public static Texture TransposalTenebrivexSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Transposal/transposal_tenebrivex_symbol");
+        }
         private static int GetMetallicity(AtomType atomtype)
         {
             if(!API.metals.Contains(atomtype))
@@ -81,7 +89,7 @@ namespace AlchemicalInversions
                 foreach(var h in new HexIndex[] {ConglomerationInput1, ConglomerationInput2})
                 {
                     renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
-                    renderer.method_529(ConglomerationAnimismusSymbol, h, Vector2.Zero);//renders holes
+                    renderer.method_529(Textures.ConglomerationAnimismusSymbol, h, Vector2.Zero);//renders holes
                 }
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, ConglomerationOutput, Vector2.Zero);//renders void under iris
                 int irisFrame = 15;
@@ -138,7 +146,7 @@ namespace AlchemicalInversions
                 foreach (var h in new HexIndex[] { RecessionInput1, RecessionInput2 })
                 {
                     renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
-                    renderer.method_529(MetalSymbol, h, Vector2.Zero);
+                    renderer.method_529(Textures.MetalSymbol, h, Vector2.Zero);
                 }
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, RecessionOutput1, Vector2.Zero);//renders void under iris
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, RecessionOutput2, Vector2.Zero);//renders void under iris
@@ -198,8 +206,64 @@ namespace AlchemicalInversions
                 Vector2 offset = new Vector2(41, 48);
                 renderer.method_523(class_238.field_1989.field_90.field_255.field_288, new Vector2(-1, -1), offset, 0);//renders base of projection glyph
                 renderer.method_528(class_238.field_1989.field_90.field_255.field_293, TransposalInput, Vector2.Zero);//renders hole
-                renderer.method_529(TransposalTenebrivexSymbol, TransposalInput, Vector2.Zero);//renders crooked??? Why?
+                renderer.method_529(Textures.TransposalTenebrivexSymbol, TransposalInput, Vector2.Zero);//renders 
                 renderer.method_528(class_238.field_1989.field_90.field_170, TransposalBowl, Vector2.Zero); //renders bowl
+            }
+            );
+
+            Corrosion = Brimstone.API.CreateSimpleGlyph(
+                ID: "alchemical-inversions-corrosion",
+                name: "Glyph of Corrosion",
+                description: "The glyph of Corrosion takes in a base metal and an antimetal, outputting a single atom with their combined metallicity.",
+                cost: 20,
+                glow: class_238.field_1989.field_97.field_374,
+                stroke: class_238.field_1989.field_97.field_375,
+                icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
+                                                                         //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
+                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                usedHexes: new HexIndex[]
+                {
+                    CorrosionInput1,
+                    CorrosionOutput,
+                    CorrosionInput2,
+                },
+                customPermission: MainClass.CorrosionPermission
+                );
+            QApi.AddPartTypeToPanel(Corrosion, false);
+            QApi.AddPartType(Corrosion, static (part, pos, editor, renderer) =>//how the glyphs look
+            {
+                PartSimState pss = editor.method_507().method_481(part);
+                float time = editor.method_504();
+                class_236 uco = editor.method_1989(part, pos);
+                Vector2 offset = new Vector2(41, 48);
+                renderer.method_523(class_238.field_1989.field_90.field_255.field_288, new Vector2(-1, -1), offset, 0);//renders base of projection glyph
+                foreach (var h in new HexIndex[] { CorrosionInput1, CorrosionInput2 })
+                {
+                    renderer.method_528(class_238.field_1989.field_90.field_255.field_293, h, Vector2.Zero);//renders holes
+                    renderer.method_529(Textures.MetalSymbol, h, Vector2.Zero);
+                }
+                renderer.method_528(class_238.field_1989.field_90.field_228.field_272, CorrosionOutput, Vector2.Zero);//renders void under iris
+
+                int irisFrame = 15;
+                bool afterIrisOpens = false;
+                Molecule risingAtom = null;
+                Vector2 risingOffset = uco.field_1984 + class_187.field_1742.method_492(CorrosionOutput).Rotated(uco.field_1985);
+                if (pss.field_2743)
+                {
+                    irisFrame = class_162.method_404((int)(class_162.method_411(1, -1, time) * 16), 0, 15);
+                    afterIrisOpens = time > 0.5;
+                    risingAtom = Molecule.method_1121(pss.field_2744[0]);
+                    if (!afterIrisOpens)
+                    {
+                        Editor.method_925(risingAtom, risingOffset, new HexIndex(0, 0), 0, 1, time, 1, false, null);
+                    }
+                }
+                renderer.method_528(class_238.field_1989.field_90.field_228.field_271, CorrosionOutput, Vector2.Zero);//renders rim above iris
+                renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], CorrosionOutput, Vector2.Zero);
+                if (pss.field_2743 && afterIrisOpens)
+                {
+                    Editor.method_925(risingAtom, risingOffset, new HexIndex(0, 0), 0, 1, time, 1, false, null);
+                }
             }
             );
 
@@ -336,6 +400,47 @@ namespace AlchemicalInversions
                             Brimstone.API.RemoveAtom(i1);//remove Tenebrivex
                             Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
                             Brimstone.API.ChangeAtom(i2, inversion);
+                        }
+                    }
+                    else if (type == Corrosion)
+                    {
+                        if (first)
+                        {
+                            if (sim.FindAtomRelative(part, CorrosionOutput).method_1085()) //FindAtomRelative returns an atom, if it finds one at the index. 1085 returns whether the atom has an element as bool.
+                            {
+                                //output blocked
+                                continue;
+                            }
+                            if (!sim.FindAtomRelative(part, CorrosionInput1).method_99(out AtomReference i1) || !sim.FindAtomRelative(part, CorrosionInput2).method_99(out AtomReference i2))
+                            {
+                                //not enough atoms on inputs
+                                continue;
+                            }
+                            if (i1.field_2281 || i1.field_2282 || i2.field_2281 || i2.field_2282) //81 checks for molecule, 82 checks for if that atom is being held
+                            {
+                                //atom is being grabbed, or has bonds.
+                                continue;
+                            }
+                            if (!(API.metals.Contains(i1.field_2280) && API.metals.Contains(i2.field_2280)))
+                            {
+                                //atoms are not both metals
+                                continue;
+                            }
+                            if ((GetMetallicity(i1.field_2280) >= 0 && GetMetallicity(i2.field_2280) <= 0) || (GetMetallicity(i1.field_2280) <= 0 && GetMetallicity(i2.field_2280) >= 0))
+                            {
+                                //atoms are correct! yay!
+                                Brimstone.API.RemoveAtom(i1);
+                                Brimstone.API.RemoveAtom(i2);//deletes atoms
+                                Brimstone.API.DrawFallingAtom(seb, i1);
+                                Brimstone.API.DrawFallingAtom(seb, i2);//make atoms fall into respective holes
+                                Brimstone.API.AddSmallCollider(sim, part, CorrosionOutput);//collision of atom entering
+                                pss[part].field_2743 = true; //sets it to active
+                                pss[part].field_2744 = new AtomType[1] { API.metals[GetMetallicity(i1.field_2280) + GetMetallicity(i2.field_2280) + 6] }; //set atom(s) that will be made, array size is set, each index can be pulled from separately
+                            }
+                        }
+                        else if (pss[part].field_2743)//if going to fire
+                        {
+                            Brimstone.API.AddAtom(sim, part, CorrosionOutput, pss[part].field_2744[0]);//make atom!
                         }
                     }
                     else if(type == class_191.field_1779)

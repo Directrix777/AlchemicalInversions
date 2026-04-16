@@ -7,6 +7,7 @@ namespace AlchemicalInversions
         public const string RecessionPermission = "AlchemicalInversions:recession";
         public const string TransposalPermission = "AlchemicalInversions:transposal";
         public const string CorrosionPermission = "AlchemicalInversions:corrosion";
+        public const string ConcatenationPermission = "AlchemicalInversions:concatenation";
         public override void Load()
         {
             Logger.Log("Loading Inversions! Yay!");
@@ -20,6 +21,7 @@ namespace AlchemicalInversions
             QApi.AddPuzzlePermission(RecessionPermission, "Glyph of Recession", "Alchemical Inversions");
             QApi.AddPuzzlePermission(TransposalPermission, "Glyph of Transposal", "Alchemical Inversions");
             QApi.AddPuzzlePermission(CorrosionPermission, "Glyph of Corrosion", "Alchemical Inversions");
+            QApi.AddPuzzlePermission(ConcatenationPermission, "Glyph of Concatenation", "Alchemical Inversions");
         }
         public override void PostLoad()
         {

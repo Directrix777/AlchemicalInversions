@@ -306,7 +306,7 @@ namespace AlchemicalInversions
                     renderer.method_528(class_238.field_1989.field_90.field_200, h, Vector2.Zero);//renders conduit rings
                     renderer.method_529(Textures.MetalSymbol, h, Vector2.Zero);
                 }
-                renderer.method_526(class_238.field_1989.field_90.field_196, ConglomerationInput1, new Vector2(-41, -41), new Vector2(-123, -41), 0);
+                renderer.method_526(class_238.field_1989.field_90.field_196, ConcatenationConduit1, new Vector2(0,0), new Vector2(-23,23), 0);
                 renderer.method_528(class_238.field_1989.field_90.field_255.field_293, ConcatenationYttriumInput, Vector2.Zero);//renders holes
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_272, ConcatenationOutput, Vector2.Zero);//renders void under iris
 

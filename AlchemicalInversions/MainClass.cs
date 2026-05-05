@@ -19,8 +19,8 @@ namespace AlchemicalInversions
             Atoms.Initialize();
             Glyphs.Initialize();
             LoadHooks();
-            QApi.AddPuzzlePermission(ConglomerationPermission, "Glyph of Conglomeration", "Alchemical Inversions");
             QApi.AddPuzzlePermission(RecessionPermission, "Glyph of Recession", "Alchemical Inversions");
+            QApi.AddPuzzlePermission(ConglomerationPermission, "Glyph of Conglomeration", "Alchemical Inversions");
             QApi.AddPuzzlePermission(TransposalPermission, "Glyph of Transposal", "Alchemical Inversions");
             QApi.AddPuzzlePermission(CorrosionPermission, "Glyph of Corrosion", "Alchemical Inversions");
             QApi.AddPuzzlePermission(ConcatenationPermission, "Glyph of Concatenation", "Alchemical Inversions");

@@ -52,7 +52,10 @@ namespace AlchemicalInversions
             public static Texture TransposalTenebrivexSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Transposal/transposal_tenebrivex_symbol");
             public static Texture CorrosionBase = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_base");
             public static Texture ConcatenationYttriumSymbol = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Concatenation/concatenation_yttrium_symbol");
-
+            public static Texture ConglomerationHover = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_hover");
+            public static Texture ConcatenationHover = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/concatenation_hover");
+            public static Texture CorrosionGlow = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_glow");
+            public static Texture CorrosionStroke = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_glow");
         }
         private static int GetMetallicity(AtomType atomtype)
         {
@@ -187,7 +190,7 @@ namespace AlchemicalInversions
                 stroke: class_238.field_1989.field_97.field_387,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_icon"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_hover"),
+                hoveredIcon: Textures.ConglomerationHover,
                 usedHexes: new HexIndex[]
                 {
                     ConglomerationInput1,
@@ -242,7 +245,7 @@ namespace AlchemicalInversions
                 stroke: class_238.field_1989.field_97.field_375,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                hoveredIcon: Textures.ConglomerationHover,
                 usedHexes: new HexIndex[]
                 {
                     RecessionOutput1,
@@ -308,7 +311,7 @@ namespace AlchemicalInversions
                 stroke: class_238.field_1989.field_97.field_375,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_hover"),
+                hoveredIcon: Textures.ConglomerationHover,
                 usedHexes: new HexIndex[]
                 {
                     TransposalInput,
@@ -334,11 +337,11 @@ namespace AlchemicalInversions
                 name: "Glyph of Corrosion",
                 description: "The glyph of Corrosion takes in a base metal and an antimetal, outputting a single atom with their combined metallicity.",
                 cost: 20,
-                glow: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_glow"),
-                stroke: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_stroke"),
+                glow: Textures.CorrosionGlow,
+                stroke: Textures.CorrosionStroke,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/conglomeration_hover"),
+                hoveredIcon: Textures.ConglomerationHover,
                 usedHexes: new HexIndex[]
                 {
                     CorrosionInput1,
@@ -394,7 +397,7 @@ namespace AlchemicalInversions
                 stroke: class_238.field_1989.field_97.field_375,
                 icon: class_238.field_1989.field_90.field_245.field_319, //Placeholder, delete once this glyph has a proper texture
                                                                          //icon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/recession"),
-                hoveredIcon: Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/concatenation_hover"),
+                hoveredIcon: Textures.ConcatenationHover,
                 usedHexes: new HexIndex[]
                 {
                     ConcatenationConduit1,

@@ -55,7 +55,7 @@ namespace AlchemicalInversions
             public static Texture ConglomerationHover = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Conglomeration/conglomeration_hover");
             public static Texture ConcatenationHover = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/concatenation_hover");
             public static Texture CorrosionGlow = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_glow");
-            public static Texture CorrosionStroke = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_glow");
+            public static Texture CorrosionStroke = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_stroke");
         }
         private static int GetMetallicity(AtomType atomtype)
         {

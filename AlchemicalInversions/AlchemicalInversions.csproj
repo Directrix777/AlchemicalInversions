@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <Reference Include="Brimstone">
-      <HintPath>..\..\..\..\OneDrive\Desktop\Modded Magnum\UnpackedMods\Brimstone_2.0.2\Brimstone.dll</HintPath>
+      <HintPath>..\..\..\..\OneDrive\Desktop\Modded Magnum\UnpackedMods\Brimstone_2.3.0\Brimstone.dll</HintPath>
     </Reference>
     <Reference Include="MMHOOK_ModdedLightning">
       <HintPath>..\..\..\..\OneDrive\Desktop\Modded Magnum\MMHOOK_ModdedLightning.dll</HintPath>

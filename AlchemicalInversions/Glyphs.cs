@@ -57,7 +57,7 @@ namespace AlchemicalInversions
             public static Texture CorrosionGlow = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_glow");
             public static Texture CorrosionStroke = Brimstone.API.GetTexture("textures/parts/Directrix777/AlchemicalInversions/Corrosion/corrosion_stroke");
 
-            public static Texture[] RecessionTrisAnimation = Brimstone.API.GetAnimation("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_iris.array", "iris_up", 16);
+            public static Texture[] RecessionIrisAnimation = Brimstone.API.GetAnimation("textures/parts/Directrix777/AlchemicalInversions/Recession/recession_iris.array", "iris_up", 16);
         }
         private static int GetMetallicity(AtomType atomtype)
         {
@@ -130,6 +130,8 @@ namespace AlchemicalInversions
                     pss.field_2743 = true; //sets it to active
                     pss.field_2744 = new AtomType[1] { API.metals[totalMetallicity + 6] };
                     pss.field_2732.Add(bondedPair);
+                    Logger.Log("Gonna play the sound now!");
+                    Brimstone.API.PlaySound(sim, Sounds.Concatenation);
                 }
             }
             else if (pss.field_2743)//if going to fire
@@ -292,7 +294,7 @@ namespace AlchemicalInversions
                         Editor.method_925(risingAtom2, risingOffset2, new HexIndex(0, 0), 0, 1, time, 1, false, null);
                     }
                 }
-                renderer.method_529(Textures.RecessionTrisAnimation[irisFrame], RecessionOutput1, Vector2.Zero);//renders current iris frame
+                renderer.method_529(Textures.RecessionIrisAnimation[irisFrame], RecessionOutput1, Vector2.Zero);//renders current iris frame
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_271, RecessionOutput1, Vector2.Zero);//renders rim above iris
                 renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], RecessionOutput2, Vector2.Zero);
                 renderer.method_528(class_238.field_1989.field_90.field_228.field_271, RecessionOutput2, Vector2.Zero);

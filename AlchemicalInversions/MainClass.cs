@@ -18,6 +18,7 @@ namespace AlchemicalInversions
         {
             Atoms.Initialize();
             Glyphs.Initialize();
+            Sounds.LoadSounds();
             LoadHooks();
             QApi.AddPuzzlePermission(RecessionPermission, "Glyph of Recession", "Alchemical Inversions");
             QApi.AddPuzzlePermission(ConglomerationPermission, "Glyph of Conglomeration", "Alchemical Inversions");

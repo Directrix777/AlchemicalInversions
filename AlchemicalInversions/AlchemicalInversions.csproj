@@ -33,8 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Content\sounds\" />
     <Folder Include="Content\textures\atoms\Directrix777\AlchemicalInversions\" />
     <Folder Include="Content\textures\parts\" />
+	<Folder Include="Content\sounds" />
   </ItemGroup>
 
 </Project>

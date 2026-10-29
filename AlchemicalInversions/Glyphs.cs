@@ -130,7 +130,6 @@ namespace AlchemicalInversions
                     pss.field_2743 = true; //sets it to active
                     pss.field_2744 = new AtomType[1] { API.metals[totalMetallicity + 6] };
                     pss.field_2732.Add(bondedPair);
-                    Logger.Log("Gonna play the sound now!");
                     Brimstone.API.PlaySound(sim, Sounds.Concatenation);
                 }
             }
@@ -485,6 +484,8 @@ namespace AlchemicalInversions
                                 Brimstone.API.AddSmallCollider(sim, part, ConglomerationOutput);//collision of atom entering
                                 pss[part].field_2743 = true; //sets it to active
                                 pss[part].field_2744 = new AtomType[1] { Atoms.Tenebrivex }; //set atom(s) that will be made, array size is set, each index can be pulled from separately
+
+                                Brimstone.API.PlaySound(sim, Sounds.Conglomeration);
                             }
                         }
                         else if (pss[part].field_2743)//if going to fire
@@ -548,6 +549,8 @@ namespace AlchemicalInversions
                                 Brimstone.API.AddSmallCollider(sim, part, RecessionOutput2);
                                 pss[part].field_2743 = true; //sets it to active
                                 pss[part].field_2744 = outputAtoms; //set atom(s) that will be made, array size is set, each index can be pulled from separately
+
+                                Brimstone.API.PlaySound(sim, Sounds.Recession);
                             }
                         }
                         else if (pss[part].field_2743)//if going to fire
@@ -570,7 +573,7 @@ namespace AlchemicalInversions
                             //input atom is being grabbed, or has bonds.
                             continue;
                         }
-                        if (!API.transpositionTable.TryGetValue(i2.field_2280, out AtomType inversion))
+                        if (!API.transpositionTable.TryGetValue(i2.field_2280, out AtomType transposal))
                         {
                             //atom in bowl is not transposable.
                             continue;
@@ -580,7 +583,9 @@ namespace AlchemicalInversions
                             //input atom is Tenebrivex! Yay!
                             Brimstone.API.RemoveAtom(i1);//remove Tenebrivex
                             Brimstone.API.DrawFallingAtom(seb, i1);//Make it fall
-                            Brimstone.API.ChangeAtom(i2, inversion);
+                            Brimstone.API.ChangeAtom(i2, transposal);
+
+                            Brimstone.API.PlaySound(sim, Sounds.Transposal);
                         }
                     }
                     else if (type == Corrosion)
@@ -617,6 +622,8 @@ namespace AlchemicalInversions
                                 Brimstone.API.AddSmallCollider(sim, part, CorrosionOutput);//collision of atom entering
                                 pss[part].field_2743 = true; //sets it to active
                                 pss[part].field_2744 = new AtomType[1] { API.metals[GetMetallicity(i1.field_2280) + GetMetallicity(i2.field_2280) + 6] }; //set atom(s) that will be made, array size is set, each index can be pulled from separately
+
+                                Brimstone.API.PlaySound(sim, Sounds.Corrosion);
                             }
                         }
                         else if (pss[part].field_2743)//if going to fire
